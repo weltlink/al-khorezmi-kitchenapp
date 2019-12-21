@@ -1,0 +1,156 @@
+body {
+  font-family: "Montserrat", sans-serif;
+  background: #fff;
+}
+
+.menus {
+  width: 1758px;
+  margin: 0 auto;
+}
+
+.wrapper {
+  width: 100%;
+}
+
+header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: center;
+  padding: 30px 0px;
+}
+
+.logo,
+.time,
+.menu-header {
+  align-self: center;
+}
+
+.menu-header {
+  font-weight: 900;
+  font-size: 64px;
+  text-transform: uppercase;
+  color: #244272;
+  text-align: center;
+}
+
+.time {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  color: #244272;
+}
+
+.foods {
+  padding: 20px 0px;
+  /* display: flex;
+  justify-content: space-between; */
+}
+
+.food {
+  max-width: 420px;
+}
+
+.food-header {
+  text-align: center;
+}
+
+.food-header h4 {
+  font-style: normal;
+  font-weight: bold;
+  font-size: 32px;
+  line-height: 39px;
+  text-align: center;
+
+  color: #4c71ae;
+}
+
+.food-box,
+.food-box-medium {
+  margin-top: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 20px 60px rgba(191, 215, 255, 0.42);
+}
+
+.food-box img {
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+}
+
+.food-description {
+  padding: 30px;
+}
+
+.food-description h4 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 28px;
+  line-height: 34px;
+
+  /* синий 2 */
+  color: #4c71ae;
+}
+
+.food-description .price {
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 34px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-top: 5px;
+  /* синий */
+  color: #244272;
+}
+
+.food-box-small,
+.food-box-medium {
+  display: flex;
+  align-self: center;
+
+  .food-description {
+    align-self: center;
+  }
+
+  img {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+  }
+}
+
+.food-box-medium img {
+  height: 245px;
+  width: 175px !important;
+}
+
+.food-box-small img {
+  width: 135px !important;
+  height: 160px;
+}
+
+.food-box-small .food-description h4 {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  max-width: 150px;
+  /* синий 2 */
+  color: #4c71ae;
+}
+
+.dinner .food-description h4 {
+  max-width: 150px;
+}
+
+.dinner .food-description .price {
+  max-width: unset;
+}
+
+.food-box-small .food-description .price {
+  font-weight: 700;
+  color: #244272;
+  max-width: unset;
+}
