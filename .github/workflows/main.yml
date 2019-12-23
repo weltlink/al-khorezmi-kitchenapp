@@ -1,0 +1,26 @@
+name: Deploy to GH Pages on push to master
+
+on:
+  push:
+    branches: 
+    - master
+
+jobs:
+  push_gh_pages:
+    name: pushing to github pages
+    runs-on: [ubuntu-latest]
+    steps:
+      - uses: actions/checkout@v1
+        with:
+          ref: master
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 10.x
+      - run: npm install
+      - run: npm run build
+      - run: cp CNAME dist/
+      - name: GitHub Pages Deploy
+        uses: maxheld83/ghpages@v0.2.1
+        env:
+          BUILD_DIR: dist/
+          GH_PAT: ${{ secrets.GH_PAT }}
