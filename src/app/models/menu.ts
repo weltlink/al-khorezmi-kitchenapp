@@ -1,16 +1,26 @@
-export interface Meal {
-  title: string;
-  price: number;
-  image: string;
-  type: string;
+export interface DishType {
+  id: number;
+  name: string;
+  ordering: number;
 }
 
-export interface TimeSection {
+export interface MealsSection {
   title: string;
-  from: string;
-  until: string;
   meals: Meal[];
 }
 
-export interface Menu {
+export interface Meal {
+  name: string;
+  price: number;
+  img: string;
+  dish_type: DishType;
 }
+
+export interface TimeSection {
+  type: string;
+  start_time: string;
+  end_time: string;
+  dishes: Meal[];
+  mealTypes: MealsSection[];
+}
+

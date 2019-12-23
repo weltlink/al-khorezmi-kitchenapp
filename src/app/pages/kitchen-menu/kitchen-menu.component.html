@@ -1,16 +1,16 @@
 <div class="menus">
-  <owl-carousel #carousel [options]="carouselOptions" [items]="menus">
-    <div class="menu" *ngFor="let menu of menus; let i = index">
-      <app-header [title]="menu.title" [from]="menu.time.from" [until]="menu.time.until"></app-header>
+  <owl-carousel #carousel [options]="carouselOptions" [items]="menu$ | async">
+    <div class="menu" *ngFor="let menu of (menu$ | async); let i = index">
+      <app-header [title]="menu.type" [from]="menu.start_time" [until]="menu.end_time"></app-header>
       <div class="foods" fxLayout="row"
-        [fxLayoutAlign]="menu.mealTypes.length > 3 ? 'space-evenly start' : 'start start'"
+        [fxLayoutAlign]="'space-evenly start'"
         [fxLayoutGap]="menu.mealTypes.length > 3 ? '' : '20px'">
         <div class="food" *ngFor="let mealType of menu.mealTypes">
           <div class="food-header">
             <h4>{{mealType.title}}</h4>
           </div>
-          <app-food-box *ngFor="let meal of mealType.meals" [desc]="meal.title" [price]="meal.price"
-            [image]="meal.image" [boxClass]="{'food-box-medium': mealType.meals.length > 2, 'food-box-small': mealType.meals.length > 3 || menu.mealTypes.length > 4}">
+          <app-food-box *ngFor="let meal of mealType.meals" [desc]="meal.name" [price]="meal.price" image="{{meal.img ? baseURL + meal.img : '/assets/images/404/food_not_found.jpg'}}"
+            [boxClass]="{'food-box-medium': mealType.meals.length > 2, 'food-box-small': mealType.meals.length > 3 || menu.mealTypes.length > 4}">
           </app-food-box>
         </div>
       </div>

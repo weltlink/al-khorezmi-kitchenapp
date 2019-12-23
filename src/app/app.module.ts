@@ -8,7 +8,9 @@ import { OwlModule } from 'ngx-owl-carousel';
 import { HeaderModule } from './components/header/header.module';
 import { KitchenMenuComponent } from './pages/kitchen-menu/kitchen-menu.component';
 import { FoodModule } from './components/food/food.module';
-import { FlexLayoutModule } from '@angular/flex-layout'
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -20,7 +22,8 @@ import { FlexLayoutModule } from '@angular/flex-layout'
     OwlModule,
     HeaderModule,
     FoodModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

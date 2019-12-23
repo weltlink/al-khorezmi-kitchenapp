@@ -1,7 +1,9 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { OwlCarousel } from 'ngx-owl-carousel';
-import { Menu, TimeSection, Meal } from 'src/app/models/menu';
-
+import { TimeSection, Meal, MealsSection } from 'src/app/models/menu';
+import { MenuService } from 'src/app/core/services/api/menu/menu.service';
+import { BehaviorSubject, Observable } from 'rxjs';
+import * as environment from '../../../environments/environment'
 @Component({
   selector: 'app-kitchen-menu',
   templateUrl: './kitchen-menu.component.html',
@@ -17,263 +19,54 @@ export class KitchenMenuComponent implements OnInit, AfterViewInit {
     margin: 10,
     // autoplay: true,
     autoplayTimeout: 10000,
-
   };
 
-  menus = [
-    {
-      title: 'Nonushta',
-      time: {
-        from: '7:30',
-        until: '11:00'
-      },
-      mealTypes: [
-        {
-          title: 'Bo\'tqalar',
-          meals: [
-            {
-              title: 'Lapshali bo\'tqa',
-              price: 7900,
-              image: 'assets/images/nonushta/food1.png'
-            },
-            {
-              title: 'Kahsa',
-              price: 8843,
-              image: 'assets/images/nonushta/botqa2.png'
-            },
-            {
-              title: 'Sutli makaron',
-              price: 2000,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-            {
-              title: 'Sutli makaron',
-              price: 2000,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-          ]
-        },
-        {
-          title: 'Gosht',
-          meals: [
-            {
-              title: 'Lapshali bo\'tqa',
-              price: 7900,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-            {
-              title: 'Kahsa',
-              price: 8843,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-            {
-              title: 'Sutli makaron',
-              price: 2000,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-          ]
-        },
-        {
-          title: 'Pishiriqlar',
-          meals: [
-            {
-              title: 'Bulochka',
-              price: 3500,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-            {
-              title: 'Lapshali bo\'tqa',
-              price: 7900,
-              image: 'assets/images/nonushta/food1.png'
-            },
-          ]
-        },
-        {
-          title: 'non',
-          meals: [
-            {
-              title: 'Lapshali bo\'tqa',
-              price: 7900,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-            {
-              title: 'Kahsa',
-              price: 8843,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-            {
-              title: 'Sutli makaron',
-              price: 2000,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-          ]
-        },
+  baseURL = environment.environment.apiURL;
 
-      ]
-    },
-    {
-      title: 'Obed',
-      time: {
-        from: '11.30',
-        until: '9999'
-      },
-      mealTypes: [
-        {
-          title: 'Bo\'tqalar',
-          meals: [
-            {
-              title: 'Lapshali bo\'tqa',
-              price: 7900,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-            {
-              title: 'Kahsa',
-              price: 8843,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-            {
-              title: 'Sutli makaron',
-              price: 2000,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            },
-          ]
-        },
-        {
-          title: 'Pishiriqlar',
-          meals: [
-            {
-              title: 'Bulochka',
-              price: 3500,
-              image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80'
-            }
-          ]
-        }
-      ]
-    }
-  ];
+  menuSubject = new BehaviorSubject([]);
+  menu$: Observable<TimeSection[]> = this.menuSubject.asObservable();
 
-  rawmenu: TimeSection[] = [
-    {
-      title: 'Nonushta',
-      // time: {
-      from: '7:30',
-      until: '11:00',
-      // },
-      meals: [
-        {
-          title: 'Lapshali bo\'tqa',
-          price: 7900,
-          image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80',
-          type: 'non'
-        },
-        {
-          title: 'Kahsa',
-          price: 8843,
-          image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80',
-          type: 'non'
-        },
-        {
-          title: 'Sutli makaron',
-          price: 2000,
-          image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80',
-          type: 'non'
-        },
-        {
-          title: 'Lapshali bo\'tqa',
-          price: 7900,
-          image: 'assets/images/nonushta/food1.png',
-          type: 'Bo\'tqalar',
-        },
-        {
-          title: 'Kahsa',
-          price: 8843,
-          image: 'assets/images/nonushta/botqa2.png',
-          type: 'Bo\'tqalar',
-        },
-        {
-          title: 'Sutli makaron',
-          price: 2000,
-          image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80',
-          type: 'Bo\'tqalar',
-        },
-        {
-          title: 'Sutli makaron',
-          price: 2000,
-          image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80',
-          type: 'Bo\'tqalar',
-        },
-        {
-          title: 'Lapshali bo\'tqa',
-          price: 7900,
-          image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80',
-          type: 'Gosht'
-
-        },
-        {
-          title: 'Kahsa',
-          price: 8843,
-          image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80',
-          type: 'Gosht'
-        },
-        {
-          title: 'Sutli makaron',
-          price: 2000,
-          image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80',
-          type: 'Gosht'
-        }
-      ]
-    },
-    {
-      title: 'Obed',
-      // time: {
-      from: '11.30',
-      until: '9999',
-      // },
-      meals: [
-        {
-          title: 'Lapshali bo\'tqa',
-          price: 7900,
-          image: 'assets/images/nonushta/food1.png',
-          type: 'Bo\'tqalar',
-        },
-        {
-          title: 'Kahsa',
-          price: 8843,
-          image: 'assets/images/nonushta/botqa2.png',
-          type: 'Bo\'tqalar',
-        },
-        {
-          title: 'Sutli makaron',
-          price: 2000,
-          image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80',
-          type: 'Bo\'tqalar',
-        },
-        {
-          title: 'Sutli makaron',
-          price: 2000,
-          image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80',
-          type: 'Bo\'tqalar',
-        },
-        {
-          title: 'Bulochka',
-          price: 3500,
-          image: 'https://images.unsplash.com/photo-1484723091739-30a097e8f929?ixlib=rb-1.2.1&fit=crop&w=1547&q=80',
-          type: 'Pishiriqlar'
-        }
-      ]
-    }
-  ];
-
-  constructor() { }
+  constructor(private menuService: MenuService) { }
 
   ngOnInit() {
+    this.menuService.getTodaysMenu().subscribe(res => {
+      if (res.results[0]) {
+        const sections: TimeSection[] = res.results[0].sections;
+        sections.forEach(section => {
+          section.mealTypes = this.mapToTypes(section.dishes);
+        });
+        this.menuSubject.next(sections);
+      }
+    });
   }
 
-  ngAfterViewInit(): void {
-    console.log(this.carousel);
+  ngAfterViewInit() {
   }
 
-  sortMenu(meals: Meal[]) {
+  mapToTypes(dishes: Meal[]): MealsSection[] {
+    const types = [];
+    for (let index = 0; index < dishes.length; index++) {
+      const dish = dishes[index];
+      const nextDish = dishes[index + 1];
+      if (index === 0) {
+        const type: MealsSection = { title: dish.dish_type.name, meals: [] };
+        types.push(type);
+      }
+
+      const typeIndex = types.length - 1;
+      if (dish.dish_type.name === types[typeIndex].title) { types[typeIndex].meals.push(dish); }
+
+      if ((index !== dishes.length - 1) && dish.dish_type.name !== nextDish.dish_type.name) {
+        const type: MealsSection = { title: nextDish.dish_type.name, meals: [] };
+        types.push(type);
+      }
+    }
+
+    return types;
+  }
+
+  compare(a: number | string, b: number | string, isAsc: boolean) {
+    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
   }
 
 }
